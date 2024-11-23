@@ -22,6 +22,11 @@ jobs:
       run: |
         corepack enable
         corepack prepare yarn@4.3.0 --activate
+    - name: Prepare Typst Package
+      shell: bash
+      run: |
+        curl -L -o cuti_latest.zip https://github.com/csimide/cuti/archive/refs/heads/master.zip
+        7z x cuti_latest.zip -ocuti
     - name: Prepare fonts and images 
       shell: bash
       run: |

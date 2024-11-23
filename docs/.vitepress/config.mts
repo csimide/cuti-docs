@@ -3,6 +3,7 @@ import { defineConfig } from "vitepress";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Cuti documentation",
+  base: "/cuti-docs/",
   description:
     "The documentation for cuti, a typst package for fakebold / fakeitalic / fakesc",
   themeConfig: {

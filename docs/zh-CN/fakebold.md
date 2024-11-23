@@ -149,7 +149,7 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 `cn-fakebold` 会将中文和常见符号进行伪粗体处理，基准字重为 `regular` 字重。请注意，在混排中英文时，英文部分不会被加粗。如果需要使得英文部分也加粗，请指定一个有 `bold` 字重的英文字体，并指定 `weight: "bold"`，如下方代码第一行所示。
 
 ```typst
-#set text(font: ("Linux Libertine", "SimSun"))
+#set text(font: ("Libertinus Serif", "SimSun"))
 - Regular: 有时，我们点击链接，打开的却是《Never Gonna Give You Up》这首歌。
 - `cn-fakebold`: #cn-fakebold[《Never Gonna Give You Up》是英国歌手 Rick Astley 演唱的歌曲，于 1987 年发行。]
 #set text(weight: "bold")

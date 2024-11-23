@@ -27,6 +27,9 @@ jobs:
       run: |
         curl -L -o cuti_latest.zip https://github.com/csimide/cuti/archive/refs/heads/master.zip
         7z x cuti_latest.zip -ocuti
+    - name: Prepare imagemagick
+      shell: bash
+      run: sudo apt install imagemagick
     - name: Prepare fonts and images 
       shell: bash
       run: |

@@ -1182,6 +1182,7 @@ __metadata:
   resolution: "cuti-docs@workspace:."
   dependencies:
     vitepress: "npm:^1.5.0"
+    vue: "npm:^3.5.12"
   languageName: unknown
   linkType: soft
 

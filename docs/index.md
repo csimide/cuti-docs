@@ -9,6 +9,9 @@ hero:
   actions:
     - theme: brand
       text: Typst Universe
+      link: https://typst.app/universe/package/cuti
+    - theme: brand
+      text: GitHub
       link: https://github.com/csimide/cuti
     - theme: alt
       text: 中文文档

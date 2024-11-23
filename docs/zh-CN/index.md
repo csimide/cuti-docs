@@ -7,6 +7,13 @@ lang: zh-CN
 
 Cuti 是一个为了方便用户使用伪粗体、伪斜体和伪小型大写字母而设计的包。
 
+## 版本要求
+
+- Typst 0.11.x 请使用 `cuti:0.2.1`
+- Typst 0.12.0 请使用 `cuti:0.3.0`
+
+## 功能文档与 Demo
+
 - [伪粗体](./fakebold.md)
 - [伪斜体](./fakeitalic.md)
 - [伪小型大写字体](./fakesc.md)

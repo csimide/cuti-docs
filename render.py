@@ -34,7 +34,7 @@ def process_file(filename: str):
         with open("1.typ", "w", encoding="utf-8") as f:
             f.write("""#set page(height: auto, width: 20cm)
 #set text(font: ("New Computer Modern", "Source Han Serif SC"))
-#import "./cuti/lib.typ": *
+#import "./cuti/cuti-master/lib.typ": *
 """)
             f.write(code)
         result = subprocess.run(

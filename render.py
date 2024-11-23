@@ -62,7 +62,7 @@ def process_file(filename: str):
                 if os.path.isfile(png_file):
                     webp_file = png_file.replace('.png', '.webp')
                     convert_result = subprocess.run(
-                        ["magick", "convert", png_file, webp_file],
+                        ["convert", png_file, webp_file],
                         capture_output=True,
                         text=True,
                     )

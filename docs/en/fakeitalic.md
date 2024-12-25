@@ -9,10 +9,10 @@ lang: en
 
 Cuti implements fake italic using the `skew` function. In `cuti:^0.2.1` (compatible with Typst 0.11.x), `skew` was provided by Typst issue #2749 (https://github.com/typst/typst/issues/2749) by Enivex; in Typst 0.12.0, the `skew` functionality has been integrated into Typst itself.
 
-Cuti uses $-0.32175$ as the default slant angle. In Microsoft Office, fake italic adds a slant effect of $arctan(1/3)$ to characters. You may need to adjust the angle yourself to achieve the best aesthetic effect.
+Cuti uses -0.32175 as the default slant angle. In Microsoft Office, fake italic adds a slant effect of arctan(1/3) to characters. You may need to adjust the angle yourself to achieve the best aesthetic effect.
 
 ::: tip CJK Typography Notice
-Using italics in CJK text may compromise typographic aesthetics. A common practice is to use alternative fonts instead of italics to achieve emphasis. For example, in $\LaTeX$, Chinese text typically uses Kaiti (楷体) instead of italics. You can visit https://typst-doc-cn.github.io/guide/FAQ/chinese-skew.html (in Chinese) for more information.
+Using italics in CJK text may compromise typographic aesthetics. A common practice is to use alternative fonts instead of italics to achieve emphasis. For example, in LaTeX, Chinese text typically uses Kaiti (楷体) instead of italics. You can visit https://typst-doc-cn.github.io/guide/FAQ/chinese-skew.html (in Chinese) for more information.
 
 Cuti does not recommend CJK users to use the fake italic functionality provided by this package, even though it has made some adaptations for CJK characters.
 :::
@@ -36,7 +36,7 @@ Cuti does not recommend CJK users to use the fake italic functionality provided 
 - Fakeitalic + Fakebold: #fakeitalic[#fakebold[#lorem(5)]]
 ```
 
-The angle of skew can be adjusted through the `ang` parameter, which accepts a value of type `angle` and defaults to `-18.4deg` (i.e., $arctan(1/3)$).
+The angle of skew can be adjusted through the `ang` parameter, which accepts a value of type `angle` and defaults to `-18.4deg` (i.e., arctan(1/3)).
 
 ```typst
 - -10deg: #fakeitalic(ang: -10deg)[#lorem(5)]

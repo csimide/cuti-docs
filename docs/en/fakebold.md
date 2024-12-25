@@ -7,7 +7,7 @@ lang: en
 
 ## Intro
 
-Cuti simulates fake bold by utilizing the `stroke` attribute of `text`. This package is typically used on fonts that do not have a `bold` weight, such as "SimSun". This package uses 0.02857em as the parameter for stroke. In Microsoft Office software, enabling fake bold will apply a border of about 0.02857em to characters. This is where the value of 0.02857em is derived from. (In fact, the exact value may be $1/35$.)
+Cuti simulates fake bold by utilizing the `stroke` attribute of `text`. This package is typically used on fonts that do not have a `bold` weight, such as "SimSun". This package uses 0.02857em as the parameter for stroke. In Microsoft Office software, enabling fake bold will apply a border of about 0.02857em to characters. This is where the value of 0.02857em is derived from. (In fact, the exact value may be 1/35.)
 
 ::: details DEMO
 
@@ -104,6 +104,7 @@ In multilingual and multi-font scenarios, different languages often utilize thei
 - `show-fakebold` uses `weight: none` as the default base weight:
   - In `cuti:^0.2.1` (compatible with Typst 0.11.x), it will apply fake bold based on the current font weight.
   - In `cuti:^0.3.0` (compatible with Typst 0.12.0), it will apply fake bold based on the `regular` font weight.
+  - **However**, in all current versions, using `#strong[]` or its syntactic sugar `*strong*` for bold text will result in a base font weight of `bold`, and this behavior cannot be modified at the moment. (Feel free to submit a PR or open an issue if you have a solution.)
 
 ```typst
 #show: show-fakebold
@@ -126,3 +127,23 @@ Under normal circumstances, the combination of font-provided bold and fake bold 
 ## cn-fakebold & show-cn-fakebold
 
 `cn-fakebold` and `show-cn-fakebold` are encapsulations of the above `regex-fakebold` and `show-fakebold`, pre-configured for use with Chinese text. Please refer to the Chinese documentation for detailed usage instructions.
+
+## Known Issues
+
+- When using `strong` for bold text, the base font weight is fixed at `bold`.
+
+```typst
+#show: show-cn-fakebold
+- Regular: 滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)
+- Bold: #text(weight: "bold")[滚滚长江东逝水，浪花淘尽英雄。]
+- Strong + Bug: *滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)*
+```
+
+- `text.tracking` may not work properly.
+
+```typst
+#set text(tracking: 1em)
+滚滚长江#text(weight: "bold")[东逝水，浪花。]淘尽英雄
+```
+
+Feel free to submit a PR or open an issue if you have a solution or workaround.

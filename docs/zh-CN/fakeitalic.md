@@ -9,10 +9,10 @@ lang: zh-CN
 
 Cuti 利用 `skew` 函数实现伪斜体。在 `cuti:^0.2.1` （适配 Typst 0.11.x） ， `skew` 由 Typst issue \#2749 (https://github.com/typst/typst/issues/2749) by Enivex 提供；在 Typst 0.12.0 ，`skew` 功能已被合入 Typst 本体。
 
-Cuti 使用 $-0.32175$ 作为默认的倾斜角度。在 Microsoft Office 中，使用伪粗体会给字符添加一个 $arctan(1/3)$ 的倾斜效果。请注意，由于不同的英文字体拥有不同的倾斜角度，需要自行寻找一个合适的角度。如果使用 Times New Roman 与中易宋体，则默认的角度是比较合适的。
+Cuti 使用 -0.32175 作为默认的倾斜角度。在 Microsoft Office 中，使用伪粗体会给字符添加一个 arctan(1/3) 的倾斜效果。请注意，由于不同的英文字体拥有不同的倾斜角度，需要自行寻找一个合适的角度。如果使用 Times New Roman 与中易宋体，则默认的角度是比较合适的。
 
 ::: tip 中文排版提醒
-在中文中使用斜体可能会破坏排版美感。常用的做法是，使用其他字体代替斜体，实现强调的效果。如 $\LaTeX$ 中一般使用楷体代替斜体。您可以查看 https://typst-doc-cn.github.io/guide/FAQ/chinese-skew.html 以获得相关信息。
+在中文中使用斜体可能会破坏排版美感。常用的做法是，使用其他字体代替斜体，实现强调的效果。如 LaTeX 中一般使用楷体代替斜体。您可以查看 https://typst-doc-cn.github.io/guide/FAQ/chinese-skew.html 以获得相关信息。
 
 Cuti 不建议中文用户使用本 package 提供的伪斜体功能，即使它针对 CJK 字符进行了一些适配。
 :::
@@ -40,7 +40,7 @@ Cuti 不建议中文用户使用本 package 提供的伪斜体功能，即使它
 - Fakeitalic + Fakebold: #fakeitalic[#fakebold[#lorem(5)]]
 ```
 
-`fakeitalic` 提供了一个 `ang` 参数用于调整字符的倾斜程度，类型为 `angle`，默认值为 `-18.4deg` （即 $arctan(1/3)$ ）。
+`fakeitalic` 提供了一个 `ang` 参数用于调整字符的倾斜程度，类型为 `angle`，默认值为 `-18.4deg` （即 arctan(1/3) ）。
 
 ```typst
 - -10deg: #fakeitalic(ang: -10deg)[#lorem(5)]

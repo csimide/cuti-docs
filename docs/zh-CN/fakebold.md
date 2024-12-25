@@ -7,7 +7,7 @@ lang: zh-CN
 
 ## 简介
 
-Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于为宋体、黑体、楷体等字体提供“粗体”。Cuti 使用 0.02857em 作为 `stroke` 的参数。在 Microsoft Office 中，使用伪粗体会给字符添加一个 0.02857em 的描边。（实际上，精确值可能是 $1/35$。）
+Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于为宋体、黑体、楷体等字体提供“粗体”。Cuti 使用 0.02857em 作为 `stroke` 的参数。在 Microsoft Office 中，使用伪粗体会给字符添加一个 0.02857em 的描边。（实际上，精确值可能是 1/35。）
 
 效果展示如下：
 
@@ -123,6 +123,7 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 - `show-fakebold` 会使用 `weight: none` 作为默认的基准字重：
   - 在 `cuti:^0.2.1` （适配 Typst 0.11.x）中，会在当前字重的基础上加粗。
   - 在 `cuti:^0.3.0` （适配 Typst 0.12.0）中，会在 `regular` 字重的基础上加粗。
+  - **但是** ，在当前的所有版本中，使用 `#strong[]` 或其语法糖 `*strong*` 加粗会导致基准字重为 `bold` 字重，该行为暂时无法更改。（如果您有解决这一问题的办法，欢迎提出 PR 或 issue ）
 
 ```typst
 #show: show-fakebold
@@ -174,3 +175,23 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 ```
 
 这两个函数也可以接受 `#font` 相同的参数，以指定中文字符加粗的效果。
+
+## 已知问题
+
+- 使用 `strong` 加粗时，基准字重固定为 `bold`。
+
+```typst
+#show: show-cn-fakebold
+- Regular: 滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)
+- Bold: #text(weight: "bold")[滚滚长江东逝水，浪花淘尽英雄。]
+- Strong + Bug: *滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)*
+```
+
+- `text.tracking` 可能会不生效。
+
+```typst
+#set text(tracking: 1em)
+滚滚长江#text(weight: "bold")[东逝水，浪花。]淘尽英雄
+```
+
+如有解决方案或 workaround ，欢迎 PR/issue 。

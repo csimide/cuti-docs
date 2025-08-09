@@ -178,7 +178,9 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 
 ## 已知问题
 
-- 使用 `strong` 加粗时，基准字重固定为 `bold`。
+如有解决方案或更好 workaround ，欢迎 PR/issue 。
+
+### 使用 `strong` 加粗时，基准字重固定为 `bold`
 
 ```typst
 #show: show-cn-fakebold
@@ -187,11 +189,48 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 - Strong + Bug: *滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)*
 ```
 
-- `text.tracking` 可能会不生效。
+### `text.tracking` 可能会不生效
 
 ```typst
 #set text(tracking: 1em)
 滚滚长江#text(weight: "bold")[东逝水，浪花。]淘尽英雄
 ```
 
-如有解决方案或 workaround ，欢迎 PR/issue 。
+### 描边颜色只保证适配简单设置
+
+理想情况下，伪粗体的描边颜色应与文字颜色保持一致。
+
+```typst
+#show: show-cn-fakebold
+#set text(fill: green)
+*三月七日，沙湖道中遇雨*
+```
+
+不过 cuti 只能适配简单设置。若使用 `show "…"` 或 `show regex(…)` 等文本级规则将文字设置为彩色，cuti 可能获取到错误的 [context](https://typst.app/docs/reference/context/#nested-contexts)，从而导致描边颜色不匹配。
+
+```typst
+#show: show-cn-fakebold
+#show "同": set text(fill: purple)
+#show regex("[\p{script=Han}]+"): set text(fill: red)
+*雨具先去，同行皆狼狈，余独不觉*
+```
+
+即使调换规则顺序或增加函数嵌套，也难以改正描边颜色，还可能造成样式不统一。
+
+```typst
+#show strong: it => {
+  show regex("[\p{script=Han}]+"): set text(fill: red)
+  it
+}
+#show: show-cn-fakebold
+*莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。\ 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。*
+```
+
+**当前解决办法**：手动标注 `text.fill`。
+
+```typst
+#show: show-cn-fakebold
+#show regex("[\p{script=Han}]+"): set text(green)
+- *已而遂晴，故作此词*
+- *#text(green)[已而遂晴]，#text(green)[故作此词]*
+```

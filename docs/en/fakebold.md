@@ -130,7 +130,9 @@ Under normal circumstances, the combination of font-provided bold and fake bold 
 
 ## Known Issues
 
-- When using `strong` for bold text, the base font weight is fixed at `bold`.
+Feel free to submit a PR or open an issue if you have a solution or better workaround.
+
+### When using `strong` for bold text, the base font weight is fixed at `bold`
 
 ```typst
 #show: show-cn-fakebold
@@ -139,11 +141,48 @@ Under normal circumstances, the combination of font-provided bold and fake bold 
 - Strong + Bug: *滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)*
 ```
 
-- `text.tracking` may not work properly.
+### `text.tracking` may not work properly
 
 ```typst
 #set text(tracking: 1em)
 滚滚长江#text(weight: "bold")[东逝水，浪花。]淘尽英雄
 ```
 
-Feel free to submit a PR or open an issue if you have a solution or workaround.
+### Stroke color is only guaranteed to work with simple settings
+
+Ideally, the color of the fake bold stroke should match with the text.
+
+```typst
+#show: show-cn-fakebold
+#set text(fill: green)
+*三月七日，沙湖道中遇雨*
+```
+
+However, cuti can only adapt to simple settings. If you use `show "…"`, `show regex(…)`, or other text-level rules to set text color, cuti may get the wrong [context](https://typst.app/docs/reference/context/#nested-contexts), resulting in mismatched stroke colors.
+
+```typst
+#show: show-cn-fakebold
+#show "同": set text(fill: purple)
+#show regex("[\p{script=Han}]+"): set text(fill: red)
+*雨具先去，同行皆狼狈，余独不觉*
+```
+
+Even changing the order of rules or adding function nesting cannot fix the stroke color, and may cause inconsistent styles.
+
+```typst
+#show strong: it => {
+  show regex("[\p{script=Han}]+"): set text(fill: red)
+  it
+}
+#show: show-cn-fakebold
+*莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。\ 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。*
+```
+
+**Current workaround**: Mark `text.fill` manually.
+
+```typst
+#show: show-cn-fakebold
+#show regex("[\p{script=Han}]+"): set text(green)
+- *已而遂晴，故作此词*
+- *#text(green)[已而遂晴]，#text(green)[故作此词]*
+```

@@ -7,11 +7,13 @@ lang: en
 
 ## Intro
 
-Cuti simulates fake bold by utilizing the `stroke` attribute of `text`. This package is typically used on fonts that do not have a `bold` weight, such as "SimSun". This package uses 0.02857em as the parameter for stroke. In Microsoft Office software, enabling fake bold will apply a border of about 0.02857em to characters. This is where the value of 0.02857em is derived from. (In fact, the exact value may be 1/35.)
+Fonts like SimSun, SimHei, and Kaiti from ZhongYi Electronics Co. only provide a single level of weight and cannot be bolded natively in Typst. With cuti, you can simulate fake bold by utilizing the [`stroke` attribute of `text`](https://typst.app/docs/reference/text/text/#parameters-stroke).
 
-::: details DEMO
+When adding the stroke, cuti uses 0.02857em as its thickness, which is consistent with Microsoft Office softwares. (In fact, the exact value may be 1/35.)
 
-**Part 1**: `font: ("Times New Roman", "SimSun")`
+::: details Use fonts by scripts, including a single-weight Chinese font (Times New Roman + SimSun)
+
+`font: ("Times New Roman", "SimSun")`
 
 ```typst
 #set text(font: ("Times New Roman", "SimSun"))
@@ -20,13 +22,33 @@ Cuti simulates fake bold by utilizing the `stroke` attribute of `text`. This pac
     column-gutter: 0.2em,
     row-gutter: 0.6em,
     [Regular:], [你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
-    [Bold(Font Only):], text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
-    [Bold(Fake Only):], fakebold[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
-    [Bold(Fake+Font):], show-cn-fakebold(text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。]),
+    [Bold (Font Only):], text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
+    [Bold (Fake Only):], fakebold[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
+    [Bold (Fake+Font):], show-cn-fakebold(text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。]),
 )
 ```
 
-**Part 2:** `font: "Source Han Serif SC"`
+- Regular
+
+  Normal weight, as expected.
+
+- Bold (Font Only)
+
+  Latin text uses the bold provided by Times New Roman, but Chinese text remains unchanged because SimSun lacks the bold variant.
+
+- Bold (Fake Only)
+
+  Applies cuti's fake bold to both scripts. While effective for Chinese, it degrades Latin text, which already has a well-designed bold in Times New Roman.
+
+- Bold (Fake+Font)
+
+  Latin text uses the bold provided by Times New Roman, and Chinese text uses cuti's fake bold because SimSun lacks the bold variant.
+
+:::
+
+::: details Use a multi-weight common font (Source Han Serif)
+
+`font: "Source Han Serif SC"`
 
 ```typst
 #set text(font: "Source Han Serif SC")
@@ -35,11 +57,54 @@ Cuti simulates fake bold by utilizing the `stroke` attribute of `text`. This pac
     column-gutter: 0.2em,
     row-gutter: 0.6em,
     [Regular:], [前面忘了。同时，逐步发掘「Typst」的奥妙。],
-    [Bold(Font Only):], text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。],
-    [Bold(Fake Only):], fakebold[前面忘了。同时，逐步发掘「Typst」的奥妙。],
-    [Bold(Fake+Font):], show-cn-fakebold(text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。])
+    [Bold (Font Only):], text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。],
+    [Bold (Fake Only):], fakebold[前面忘了。同时，逐步发掘「Typst」的奥妙。],
+    [Bold (Fake+Font):], show-cn-fakebold(text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。])
 )
 ```
+
+- Regular
+
+  Normal weight, as expected.
+
+- Bold (Font Only)
+
+  Source Han Serif SC covers both scripts and provides the bold variant. Therefore, all texts are properly bolded.
+
+- Bold (Fake Only)
+
+  Applies cuti's fake bold to both scripts. The result is degraded, especially for Latin text, since the font already provides a well-designed bold.
+
+- Bold (Fake+Font)
+
+  Latin text uses the bold provided by the font, and Chinese text uses cuti's fake bold.
+
+:::
+
+## Quick Usage
+
+```typst no-render
+#import "@preview/cuti:0.3.0": show-cn-fakebold
+#show: show-cn-fakebold
+```
+
+For most “academic” use cases, add the above code at the beginning of your document and set font using `#set text(font: ("Times New Roman", "Chinese Font Name"))`. This allows you to bold Chinese characters. For example, SimSun + bold:
+
+```typst
+#import "@preview/cuti:0.3.0": show-cn-fakebold
+#set text(font: ("Times New Roman", "SimSun"))
++ Without `cuti`: 春江潮水连海平，*海上明月共潮生*。
+#show: show-cn-fakebold
++ With `cuti`: 春江潮水连海平，*海上明月共潮生*。
+```
+
+::: tip
+
+In the example above, the Chinese font, SimSun, provides only a single weight, which normally prevents Chinese characters from being bolded in Typst. This is the primary use case for cuti.
+
+Generally, if your Chinese font already provides multiple weights (such as Source Han Serif or Source Han Sans), there is no need to use cuti. Using cuti in such cases may cause the fake bold to be applied on top of the font-provided bold, which is visually unappealing.
+
+To illustrate the possibility of this combination, the following examples use Source Han Serif as the default Chinese font, unless otherwise specified.
 
 :::
 
@@ -100,7 +165,7 @@ In multilingual and multi-font scenarios, different languages often utilize thei
 
 `show-fakebold` and `regex-fakebold` share the same parameters. By default:
 
-- `show-fakebold` uses `"."` as the regular expression, meaning all characters with bold or `strong` attributes will be fake-bolded;
+- `show-fakebold` uses `".+"` as the regular expression, meaning all characters with bold or `strong` attributes will be fake-bolded;
 - `show-fakebold` uses `weight: none` as the default base weight:
   - In `cuti:^0.2.1` (compatible with Typst 0.11.x), it will apply fake bold based on the current font weight.
   - In `cuti:^0.3.0` (compatible with Typst 0.12.0), it will apply fake bold based on the `regular` font weight.

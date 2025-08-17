@@ -7,13 +7,15 @@ lang: zh-CN
 
 ## 简介
 
-Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于为宋体、黑体、楷体等字体提供“粗体”。Cuti 使用 0.02857em 作为 `stroke` 的参数。在 Microsoft Office 中，使用伪粗体会给字符添加一个 0.02857em 的描边。（实际上，精确值可能是 1/35。）
+中易宋体、黑体、楷体等字体只提供单级字重，在 Typst 中本来无法加粗。利用 cuti，可自动用 [`text` 的 `stroke` 属性](https://typst.app/docs/reference/text/text/#parameters-stroke)描边，生成伪粗体。
+
+描边时，cuti 使用 0.02857em 作为 `stroke` 的参数。该值与 Microsoft Office 保持一致。（实际上，精确值可能是 1/35。）
 
 效果展示如下：
 
-::: details
+::: details 中西分设字体，中文字体只提供单级字重（Times New Roman + 中易宋体）
 
-**Part 1**: `font: ("Times New Roman", "SimSun")`
+`font: ("Times New Roman", "SimSun")`
 
 ```typst
 #set text(font: ("Times New Roman", "SimSun"))
@@ -22,13 +24,33 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
     column-gutter: 0.2em,
     row-gutter: 0.6em,
     [Regular:], [你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
-    [Bold(Font Only):], text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
-    [Bold(Fake Only):], fakebold[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
-    [Bold(Fake+Font):], show-cn-fakebold(text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。]),
+    [Bold (Font Only):], text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
+    [Bold (Fake Only):], fakebold[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。],
+    [Bold (Fake+Font):], show-cn-fakebold(text(weight: "bold")[你说得对，但是《Cuti》是一个用于伪粗体和伪斜体的包。]),
 )
 ```
 
-**Part 2:** `font: "Source Han Serif SC"`
+- Regular
+
+  不加粗，显示正常。
+
+- Bold (Font Only)
+
+  西文所用 Times New Roman 提供粗体，西文正常加粗；中文所用 SimSun 未提供粗体，中文加粗无效果。
+
+- Bold (Fake Only)
+
+  完全采用 cuti 伪粗体，中西都能加粗；但西文已有 Times New Roman 提供粗体，伪粗体不如它美观。
+
+- Bold (Fake+Font)
+
+  西文所用 Times New Roman 提供粗体，西文正常加粗；中文所用 SimSun 未提供粗体，中文采用 cuti 伪粗体。
+
+:::
+
+::: details 中西共用字体，且字体提供多级字重（思源宋体）
+
+`font: "Source Han Serif SC"`
 
 ```typst
 #set text(font: "Source Han Serif SC")
@@ -37,11 +59,27 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
     column-gutter: 0.2em,
     row-gutter: 0.6em,
     [Regular:], [前面忘了。同时，逐步发掘「Typst」的奥妙。],
-    [Bold(Font Only):], text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。],
-    [Bold(Fake Only):], fakebold[前面忘了。同时，逐步发掘「Typst」的奥妙。],
-    [Bold(Fake+Font):], show-cn-fakebold(text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。])
+    [Bold (Font Only):], text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。],
+    [Bold (Fake Only):], fakebold[前面忘了。同时，逐步发掘「Typst」的奥妙。],
+    [Bold (Fake+Font):], show-cn-fakebold(text(weight: "bold")[前面忘了。同时，逐步发掘「Typst」的奥妙。])
 )
 ```
+
+- Regular
+
+  不加粗，显示正常。
+
+- Bold (Font Only)
+
+  Source Han Serif SC 覆盖全文且提供粗体，中西均能正常加粗。
+
+- Bold (Fake Only)
+
+  完全采用 cuti 伪粗体，中西都能加粗；但字体已提供粗体，伪粗体不如它美观，特别是西文。
+
+- Bold (Fake+Font)
+
+  西文采用字体提供的粗体，中文采用 cuti 伪粗体。
 
 :::
 
@@ -61,6 +99,16 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 #show: show-cn-fakebold
 + 使用 `cuti` 后：春江潮水连海平，*海上明月共潮生*。
 ```
+
+::: tip
+
+上例中，中文字体 SimSun 只提供单级字重，导致中文在 Typst 中无法加粗，才采用 cuti 伪粗体。这是 cuti 的主要应用场景。
+
+若中文字体已提供多级字重（如思源宋体、黑体），一般不必使用 cuti。若强行使用，伪粗体可能与字体提供的粗体叠加，未必美观。
+
+为了展示叠加的可能性，以下各例如无特别设置，默认以思源宋体作为中文字体。
+
+:::
 
 ## `fakebold`
 
@@ -119,7 +167,7 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 
 `show-fakebold` 和 `regex-fakebold` 有着相同的参数。默认情况下：
 
-- `show-fakebold` 使用 `"."` 作为正则表达式，也就是说，所有字符带加粗或 `strong` 属性都会被伪粗体加粗；
+- `show-fakebold` 使用 `".+"` 作为正则表达式，也就是说，所有字符带加粗或 `strong` 属性都会被伪粗体加粗；
 - `show-fakebold` 会使用 `weight: none` 作为默认的基准字重：
   - 在 `cuti:^0.2.1` （适配 Typst 0.11.x）中，会在当前字重的基础上加粗。
   - 在 `cuti:^0.3.0` （适配 Typst 0.12.0）中，会在 `regular` 字重的基础上加粗。
@@ -178,7 +226,9 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 
 ## 已知问题
 
-- 使用 `strong` 加粗时，基准字重固定为 `bold`。
+如有解决方案或更好 workaround ，欢迎 PR/issue 。
+
+### 使用 `strong` 加粗时，基准字重固定为 `bold`
 
 ```typst
 #show: show-cn-fakebold
@@ -187,11 +237,48 @@ Cuti 利用 `text` 的 `stroke` 属性生成伪粗体。该工具通常可用于
 - Strong + Bug: *滚滚长江东逝水，浪花淘尽英雄。 #lorem(5)*
 ```
 
-- `text.tracking` 可能会不生效。
+### `text.tracking` 可能会不生效
 
 ```typst
 #set text(tracking: 1em)
 滚滚长江#text(weight: "bold")[东逝水，浪花。]淘尽英雄
 ```
 
-如有解决方案或 workaround ，欢迎 PR/issue 。
+### 描边颜色只保证适配简单设置
+
+理想情况下，伪粗体的描边颜色应与文字颜色保持一致。
+
+```typst
+#show: show-cn-fakebold
+#set text(fill: green)
+*三月七日，沙湖道中遇雨*
+```
+
+不过 cuti 只能适配简单设置。若使用 `show "…"` 或 `show regex(…)` 等文本级规则将文字设置为彩色，cuti 可能获取到错误的 [context](https://typst.app/docs/reference/context/#nested-contexts)，从而导致描边颜色不匹配。
+
+```typst
+#show: show-cn-fakebold
+#show "同": set text(fill: purple)
+#show regex("[\p{script=Han}]+"): set text(fill: red)
+*雨具先去，同行皆狼狈，余独不觉*
+```
+
+即使调换规则顺序或增加函数嵌套，也难以改正描边颜色，还可能造成样式不统一。
+
+```typst
+#show strong: it => {
+  show regex("[\p{script=Han}]+"): set text(fill: red)
+  it
+}
+#show: show-cn-fakebold
+*莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。\ 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。*
+```
+
+**当前解决办法**：手动标注 `text.fill`。
+
+```typst
+#show: show-cn-fakebold
+#show regex("[\p{script=Han}]+"): set text(green)
+- *已而遂晴，故作此词*
+- *#text(green)[已而遂晴]，#text(green)[故作此词]*
+```
